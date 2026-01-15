@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Select Month</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: green;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px;
+}
+
+h1 { margin-bottom: 30px; }
+
+.months {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  max-width: 800px;
+  width: 100%;
+}
+
+.month {
+  background: white;
+  border-radius: 12px;
+  padding: 30px;
+  text-align: center;
+  font-size: 18px;
+  cursor: pointer;
+  text-decoration: none;
+  color: black;
+}
+.month:hover { background: #e0f7fa; }
+
+button {
+  margin-top: 30px;
+  padding: 10px 20px;
+}
+</style>
+</head>
+
+<body>
+<h1>Select a Month</h1>
+
+<div class="months">
+  <a class="month" href="days.html?month=1">January</a>
+  <a class="month" href="days.html?month=2">February</a>
+  <a class="month" href="days.html?month=3">March</a>
+  <a class="month" href="days.html?month=4">April</a>
+  <a class="month" href="days.html?month=5">May</a>
+  <a class="month" href="days.html?month=6">June</a>
+  <a class="month" href="days.html?month=7">July</a>
+  <a class="month" href="days.html?month=8">August</a>
+  <a class="month" href="days.html?month=9">September</a>
+  <a class="month" href="days.html?month=10">October</a>
+  <a class="month" href="days.html?month=11">November</a>
+  <a class="month" href="days.html?month=12">December</a>
+</div>
+
+<button onclick="history.back()">Back</button>
+</body>
+</html>
