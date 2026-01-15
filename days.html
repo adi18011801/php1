@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Select Day</title>
+
+<style>
+body {
+  font-family: sans-serif;
+  background: orange;
+  text-align: center;
+  padding: 40px;
+}
+
+.days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+  max-width: 600px;
+  margin: auto;
+}
+
+.day {
+  background: white;
+  padding: 15px;
+  border-radius: 6px;
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+}
+
+.day:hover { background: #d0f0ff; }
+</style>
+</head>
+
+<body>
+
+<h1 id="monthTitle"></h1>
+<div class="days" id="daysContainer"></div>
+
+<button onclick="history.back()">Back</button>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const month  = parseInt(params.get("month"), 10);
+const year   = new Date().getFullYear();
+
+const monthNames = [
+  "January","February","March","April","May","June",
+  "July","August","September","October","November","December"
+];
+
+document.getElementById("monthTitle").innerText =
+  "Choose a Day in " + monthNames[month - 1];
+
+const daysInMonth = new Date(year, month, 0).getDate();
+const container = document.getElementById("daysContainer");
+
+for (let day = 1; day <= daysInMonth; day++) {
+  const link = document.createElement("a");
+  link.className = "day";
+  link.href = `calendar.html?month=${month}&day=${day}`;
+  link.innerText = day;
+  container.appendChild(link);
+}
+</script>
+
+</body>
+</html>
