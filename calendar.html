@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Day Calendar</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f3e706;
+  padding: 40px;
+  max-width: 800px;
+  margin: auto;
+}
+
+.hour-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.time {
+  width: 80px;
+  font-weight: bold;
+}
+
+input {
+  flex: 1;
+  padding: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<h1 id="title"></h1>
+<div id="calendar"></div>
+<button onclick="history.back()">Back</button>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+
+const month = parseInt(params.get("month"), 10);
+const day   = parseInt(params.get("day"), 10);
+const year  = new Date().getFullYear();
+
+const eventDate =
+  `${year}-${String(month).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+
+document.getElementById("title").innerText =
+  "Schedule for " + eventDate;
+
+const calendar = document.getElementById("calendar");
+const inputs = {};
+
+for (let hour = 8; hour <= 20; hour++) {
+  const row = document.createElement("div");
+  row.className = "hour-row";
+
+  const time = document.createElement("div");
+  time.className = "time";
+  time.innerText = hour + ":00";
+
+  const input = document.createElement("input");
+  inputs[hour] = input;
+
+  input.addEventListener("change", () => {
+    const fd = new FormData();
+    fd.append("event_date", eventDate);
+    fd.append("event_time", `${String(hour).padStart(2,'0')}:00:00`);
+    fd.append("event_text", input.value);
+
+    fetch("../server/save_event.php", {
+      method: "POST",
+      body: fd
+    });
+  });
+
+  row.appendChild(time);
+  row.appendChild(input);
+  calendar.appendChild(row);
+}
+
+// Load saved events
+fetch(`../server/get_events.php?date=${eventDate}`)
+  .then(r => r.json())
+  .then(events => {
+    events.forEach(ev => {
+      const h = parseInt(ev.event_time.split(":")[0]);
+      if (inputs[h]) inputs[h].value = ev.event_text;
+    });
+  });
+</script>
+
+</body>
+</html>
